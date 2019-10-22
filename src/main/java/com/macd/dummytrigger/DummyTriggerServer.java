@@ -57,7 +57,7 @@ public class DummyTriggerServer
                                        .build();
         try {
             grpcServer.start();
-            log.info ("gRPC server started on port " + grpcServer.getPort() );
+            log.info( "gRPC server started on port " + grpcServer.getPort() );
         } catch ( IOException e ) {
             log.error( "Exception when starting gRPC server: " + e.getMessage(), e );
         }
@@ -144,27 +144,28 @@ public class DummyTriggerServer
 
             String threadInfo = Thread.currentThread().getName() + " with " + synchronizedStreamObserver
                                 + " and request " + requestString;
-            // if ( atomicBoolean.compareAndSet( false, true ) ) {
+            // option 1: use this
+//            if ( atomicBoolean.compareAndSet( false, true ) ) {
+                try {
+                    String reply = threadInfo + " is triggered after " + delay + " seconds";
+                    DummyTriggerResponse response = createResponse( reply );
+                    // try to start all threads at nearly the same time
+                    // earlier threads will wait here until the last thread counts down the latch
+                    startLatch.await();
+                    synchronizedStreamObserver.onNext( response );
+                    Thread.sleep( 3 ); // XXX not using sleep() seems to make the problem occur less often
+                    synchronizedStreamObserver.onCompleted();
 
-            try {
-                String reply = threadInfo + " is triggered after " + delay + " seconds";
-                DummyTriggerResponse response = createResponse( reply );
-                // try to start all threads at nearly the same time
-                // earlier threads will wait here until the last thread counts down the latch
-                startLatch.await();
-                synchronizedStreamObserver.onNext( response );
-                Thread.sleep( 3 ); // XXX not using sleep() seems to make the problem occur less often
-                synchronizedStreamObserver.onCompleted();
-                
-//                synchronizedStreamObserver.finish( response );
-            } catch ( Throwable t ) {
-                log.error( "Unable to trigger grpc: " + t.getMessage(), t );
-                synchronizedStreamObserver.onError( t );
-                // throw t;
-            }
-            // } else {
-            // log.log( Level.SEVERE, threadInfo + " already triggered" );
-            // }
+                      // option 2: or use this
+//                     synchronizedStreamObserver.finish( response );
+                } catch ( Throwable t ) {
+                    log.error( "Unable to trigger grpc: " + t.getMessage(), t );
+                    synchronizedStreamObserver.onError( t );
+                    // throw t;
+                }
+//            } else {
+//                log.warn( threadInfo + " already triggered" );
+//            }
         }
     }
 

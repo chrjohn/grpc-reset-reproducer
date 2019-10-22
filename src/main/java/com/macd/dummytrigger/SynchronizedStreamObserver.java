@@ -43,40 +43,4 @@ public class SynchronizedStreamObserver<V>
         streamObserver.onCompleted();
     }
 
-    /*
-    public boolean isCancelled() {
-        return streamObserver instanceof ServerCallStreamObserver
-               && ( ( ServerCallStreamObserver )streamObserver ).isCancelled();
-    }
-
-
-
-    // see io.grpc.internal.AbstractStream.TransportState#DEFAULT_ONREADY_THRESHOLD
-    public boolean isReady() {
-        return streamObserver instanceof ServerCallStreamObserver
-               && ( ( ServerCallStreamObserver )streamObserver ).isReady();
-    }
-
-
-
-    public long getMessagesSent() {
-        return messagesSent;
-    }
-
-
-
-    public void setOnReadyHandler( Runnable onReadyHandler ) {
-        if ( streamObserver instanceof ServerCallStreamObserver ) {
-            ( ( ServerCallStreamObserver )streamObserver ).setOnReadyHandler( onReadyHandler );
-        }
-    }
-
-
-
-    public void setOnCancelHandler( Runnable onCancelHandler ) {
-        if ( streamObserver instanceof ServerCallStreamObserver ) {
-            ( ( ServerCallStreamObserver )streamObserver ).setOnCancelHandler( onCancelHandler );
-        }
-    }
-*/
 }
