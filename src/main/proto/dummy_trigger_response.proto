@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package com.macd.dummytrigger;
+
+option java_package = "com.macd.dummytrigger.protobuf";
+option java_outer_classname = "DummyTriggerResponseComponent";
+
+message DummyTriggerResponse {
+
+    string reply = 1;
+
+}

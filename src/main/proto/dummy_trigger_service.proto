@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+import "dummy_trigger_request.proto";
+import "dummy_trigger_response.proto";
+
+package com.macd.dummytrigger;
+
+option java_package = "com.macd.dummytrigger.protobuf";
+
+/**
+ * Defines available services.
+ */
+service DummyTriggerService {
+
+    rpc WaitForDummyTrigger (DummyTriggerRequest) returns (DummyTriggerResponse);
+
+}
