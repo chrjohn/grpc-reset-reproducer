@@ -1,6 +1,6 @@
 # grpc-reset-reproducer
 
-See XXXX
+See https://github.com/grpc/grpc-java/issues/6323
 
 Either run `mvn clean package` which will start a unit test or you could also start the `main()` method of `DummyTriggerServer` and `DummyTriggerClient`.
 
